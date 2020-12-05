@@ -15,4 +15,14 @@ function GetID(seatCode)
     return row * 8 + col;
 end
 
-maximum(map(GetID, s))
+foundSeats = zeros(930);
+
+for seat in s
+    foundSeats[GetID(seat)] = 1;
+end
+
+for i = 2:929
+    if foundSeats[i] == 0 && foundSeats[i-1] == 1 && foundSeats[i+1] == 1
+        println(i)
+    end
+end
