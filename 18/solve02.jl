@@ -8,7 +8,6 @@ function EvalExpression(expr)
     newExp = expr;
     m = match(r"(\d+) \+ (\d+)", expr)
     while m != nothing
-        println(m.captures);
         val = parse(Int, m.captures[1]) + parse(Int, m.captures[2]);
         newExp = replace(newExp, string(m.match)=>"$(val)", count=1);
 
