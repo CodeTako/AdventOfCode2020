@@ -38,53 +38,6 @@ function ParseRules(lines)
 
     return rules;
 end
-#
-# function SolveRule!(id, rules, solved)
-#     if haskey(solved, id)
-#         return;
-#     end
-#
-#     # println(id);
-#     r = rules[id];
-#     # println(r);
-#     if length(r) == 1 && typeof(r[1]) == String
-#         solved[id] = r[1];
-#         return;
-#     else
-#         for ruleOpt in r
-#             for rule in ruleOpt
-#                 SolveRule!(rule, rules, solved);
-#             end
-#         end
-#
-#         trueForms = map(rule -> map(x->solved[x], rule), r);
-#         # println(trueForms)
-#         if length(r) == 2
-#             part1 = *(trueForms[1]...);
-#             part2 = *(trueForms[2]...);
-#             newRule = "("*part1*"|"*part2*")";
-#         else
-#             newRule = *(trueForms[1]...);
-#         end
-#
-#         solved[id] = newRule;
-#         if id == 8
-#             solved[id] = solved[id]*"+";
-#         end
-#
-#         println("$(id):$(r) => $(newRule)");
-#     end
-# end
-#
-# function SolveAllRules(rules)
-#     solved = Dict();
-#     SolveRule!(0, rules, solved);
-#
-#     rules[11] = [[42, 11, 31], [42, 31]];
-#
-#     println(length(solved));
-#     return (Regex("^"*solved[0]*"\$"), solved);
-# end
 
 function CheckRule(id, msg, rules)
     r = rules[id];
@@ -100,16 +53,6 @@ function CheckRule(id, msg, rules)
             # println("$(msg) : $(solved[id])");
             return [length(m.match)];
         end
-    # elseif id != 11 && depth > 5 && length(r) == 1
-    #     rule = Regex("^"*solved[id]);
-    #     m = match(rule, msg);
-    #     # println("Checking $(msg) vs $(id)");
-    #     if m == nothing
-    #         return -1;
-    #     else
-    #         println("$(m.match) : $(id)");
-    #         return length(m.match);
-    #     end
     else
         opts = [];
         for opt in r
@@ -133,17 +76,9 @@ function CheckRule(id, msg, rules)
             end
 
             if length(totalLen) > 0
-                # for tl in totalLen
-                #     println("$(msg[1:tl]) : $(id)");
-                # end
-
                 opts = vcat(opts, totalLen);
             end
         end
-
-        # if length(opts) == 0
-        #     println("Failed: $(msg) : $(id)")
-        # end
 
         return opts;
     end
@@ -166,7 +101,6 @@ function GetCount(messages, rules, solved)
 end
 
 rules = ParseRules(s)
-# (realRule, solved) = SolveAllRules(rules)
 
 rules[11] = [[42, 11, 31], [42, 31]];
 rules[8] = [[42], [42, 8]];
@@ -176,7 +110,6 @@ uncorrupt = GetCount(messages, rules, solved)
 
 # test
 rules_t = ParseRules(t)
-# realRule_t, solved_t = SolveAllRules(rules_t)
 
 rules[11] = [[42, 11, 31], [42, 31]];
 rules[8] = [[42], [42, 8]];
